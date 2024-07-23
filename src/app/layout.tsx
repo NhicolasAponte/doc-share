@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "doc-share",
@@ -26,6 +27,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <Header>
+          <h1 className="text-2xl font-bold">doc-share</h1>
+        </Header>
         {children}
       </body>
     </html>
