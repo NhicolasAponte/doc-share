@@ -5,7 +5,7 @@ NextJS
 Typescript 
 Tailwind 
 Shadcn/UI : default style; slate; no css variables for colors 
-Clerk 
+Clerk : installed clerk/themes to style the clerk provider 
 
 Editor: using jsm-editor by JavascriptMastery; rich text editor built on top of Lexical 
 npm i jsm-editor 

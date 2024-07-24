@@ -3,6 +3,8 @@ import { Inter as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 export const metadata: Metadata = {
   title: "doc-share",
@@ -20,18 +22,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <Header>
-          <h1 className="text-2xl font-bold">doc-share</h1>
-        </Header>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider 
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: "#FFD700", //#3371ff
+          fontSize: "16px",
+        }
+      }}
+    >
+      <html lang="en">
+        <body
+          className={cn(
+            "min-h-screen font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          <Header>
+            <div className="">
+              <p className="document-title">Temp doc title</p>
+            </div>
+            <SignedOut>
+              <SignInButton/>
+            </SignedOut>
+            <SignedIn>
+              <UserButton/>
+            </SignedIn>
+          </Header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
