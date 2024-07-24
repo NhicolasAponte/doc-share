@@ -1,9 +1,9 @@
-import { Editor } from "@/components/editor/Editor";
+import CollaborativeRoom from "@/components/CollaborativeRoom";
 
 export default function Document() {
     return (
         <div> 
-            <Editor/>
+            <CollaborativeRoom/>
         </div>
     )
 }

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
-import Header from "@/components/Header";
-import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import CollabProvider from "./CollabProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "doc-share",
@@ -22,13 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider 
+    <ClerkProvider
       appearance={{
         baseTheme: dark,
         variables: {
           colorPrimary: "#33ffff", //"#FFD700"
           fontSize: "16px",
-        }
+        },
       }}
     >
       <html lang="en">
@@ -38,18 +38,7 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
-          <Header>
-            <div className="">
-              <p className="document-title">Temp doc title</p>
-            </div>
-            <SignedOut>
-              <SignInButton/>
-            </SignedOut>
-            <SignedIn>
-              <UserButton/>
-            </SignedIn>
-          </Header>
-          {children}
+          <CollabProvider>{children}</CollabProvider>
         </body>
       </html>
     </ClerkProvider>
