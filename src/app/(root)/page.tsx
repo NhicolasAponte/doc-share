@@ -1,9 +1,43 @@
+import AddDocumentButton from "@/components/AddDocumentButton";
+import Header from "@/components/Header";
+import { SignInRoute } from "@/lib/routes";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 
+// flex items-center gap-2 lg:gap-4
+export default async function Home() {
+  const user = await currentUser();
+  if(!user) { redirect(SignInRoute.href) }
 
-export default function Home() {
+  const documents = [];
   return (
-    <main className="flex min-h-screen flex-col items-center p-4">
-      <p>Home Page</p>
+    <main className="home-container">
+      <Header className="sticky let-0 top-0">
+        <div className="">
+          Notification
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
+      </Header>
+      {documents.length > 0 ? (
+        <div>
+
+        </div>
+      ) : (
+        <div className="document-list-empty">
+          <Image
+            src="/assets/icons/doc.svg"
+            alt="Document"
+            width={40}
+            height={40}
+            className="mx-auto"
+          />
+          <AddDocumentButton email={user.emailAddresses[0].emailAddress} userId={user.id}/>
+        </div>
+      )}
     </main>
   );
 }

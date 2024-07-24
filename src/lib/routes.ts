@@ -9,3 +9,7 @@ export const SignInRoute = {
 export const SignOutRoute = {
     href: "/sign-out",
 }
+
+export const DocumentsRoute = {
+    href: "/documents",
+}
