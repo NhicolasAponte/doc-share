@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 export default async function Home() {
   const user = await currentUser();
   if(!user) { redirect(SignInRoute.href) }
+  //console.log('user', user)
 
   const documents = [];
   return (

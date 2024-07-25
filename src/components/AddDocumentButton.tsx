@@ -10,11 +10,11 @@ const AddDocumentButton = ({ userId, email }: AddDocumentBtnProps) => {
     const router = useRouter();
     // create document, if successful then route to the document
     const addDocHandler = async () => {
-        console.log('xxxxx add doc handler xxxxx')
+        //console.log('xxxxx add doc handler xxxxx')
         try { 
             const doc = await createDocument({userId, email});
             if (doc) {
-                router.push(`${DocumentsRoute.href},/,${doc.id}`);
+                router.push(`${DocumentsRoute.href}/${doc.id}`);
             }
         }
         catch (error) {
