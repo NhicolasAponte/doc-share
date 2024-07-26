@@ -7,9 +7,6 @@ import Loader from "./Loader";
 import { Editor } from "./editor/Editor";
 import ActiveCollaborators from "./ActiveCollaborators";
 
-// NOTE TODO: get id for room from query params
-// TODO: style for div wrapping active collaborators
-// className="flex w-full flex-1 justify-end gap-2 sm:gap-3"
 const CollaborativeRoom = ({
   roomId,
   roomMetadata,
@@ -22,7 +19,7 @@ const CollaborativeRoom = ({
             <div className="flex w-fit items-center justify-center gap-2">
               <p className="document-title">Temp doc title</p>
             </div>
-            <div>
+            <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
               <ActiveCollaborators />
               <SignedOut>
                 <SignInButton />
