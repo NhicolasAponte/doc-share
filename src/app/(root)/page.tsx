@@ -1,6 +1,8 @@
 import AddDocumentButton from "@/components/AddDocumentButton";
+import DocumentsList from "@/components/DocumentsList";
 import Header from "@/components/Header";
 import { SignInRoute } from "@/lib/routes";
+import { getAllDocumentsByUserId } from "@/lib/server-actions/room.actions";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -12,7 +14,7 @@ export default async function Home() {
   if(!user) { redirect(SignInRoute.href) }
   //console.log('user', user)
 
-  const documents = [];
+  const documents = await getAllDocumentsByUserId(user.emailAddresses[0].emailAddress);
   return (
     <main className="home-container">
       <Header className="sticky let-0 top-0">
@@ -25,7 +27,7 @@ export default async function Home() {
       </Header>
       {documents.length > 0 ? (
         <div>
-
+          <DocumentsList docs={documents}/>
         </div>
       ) : (
         <div className="document-list-empty">

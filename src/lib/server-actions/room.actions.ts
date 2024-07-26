@@ -5,6 +5,23 @@ import { revalidatePath } from "next/cache";
 import { parseStringify } from "@/lib/utils";
 import { getDocumentsRoute } from "../routes";
 
+
+export async function getAllDocumentsByUserId(userId: string) {
+  try {
+    // all rooms were coming back empty 
+    // turned out it was because on creation, we are passing the 
+    // user email to be used as the user id in liveblocks
+    const result = await liveblocks.getRooms({ userId: userId });
+    console.log('result', result);
+    const rooms = result.data;
+    console.log('rooms', rooms);
+    return parseStringify(rooms);
+  }
+  catch (error) {
+    console.error(`Error occurred while getting all documents: `, error);
+  }
+}
+
 export const createDocument = async ({
   userId,
   email,
