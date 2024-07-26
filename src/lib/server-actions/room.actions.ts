@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { liveblocks } from "@/lib/liveblocks";
 import { revalidatePath } from "next/cache";
 import { parseStringify } from "@/lib/utils";
+import { getDocumentsRoute } from "../routes";
 
 export const createDocument = async ({
   userId,
@@ -41,15 +42,27 @@ export const createDocument = async ({
 export async function getDocument({roomId, userId}: {roomId: string, userId: string} ) {
   try {
     const room = await liveblocks.getRoom(roomId);
+    //NOTE TODO: Implement access control
     //const hasAccess = room.usersAccesses[userId]?.includes('room:write');
-    const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+    // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
-    if (!hasAccess) {
-      throw new Error("User is not authorized to have access to this document");
-    }
+    // if (!hasAccess) {
+    //   throw new Error("User is not authorized to have access to this document");
+    // }
 
     return parseStringify(room);
   } catch (error) {
     console.error(`Error occurred while getting document: `, error);
+  }
+}
+
+export async function updateDocument({roomId, metadata}: {roomId: string, metadata: RoomMetadata}) {
+  try {
+    const updatedRoom = await liveblocks.updateRoom(roomId, {metadata});
+    revalidatePath(getDocumentsRoute(roomId));
+    return parseStringify(updatedRoom);
+  }
+  catch (error) {
+    console.error(`Error occurred while updating document: `, error);
   }
 }

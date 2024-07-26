@@ -13,3 +13,7 @@ export const SignOutRoute = {
 export const DocumentsRoute = {
     href: "/documents",
 }
+
+export function getDocumentsRoute( roomId: string ) {
+    return `${DocumentsRoute.href}/${roomId}`;
+}
