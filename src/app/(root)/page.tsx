@@ -26,7 +26,11 @@ export default async function Home() {
         </div>
       </Header>
       {documents.length > 0 ? (
-        <div>
+        <div className="document-list-container">
+          <div className="document-list-title">
+            <h3 className="text-28-semibold">Documents</h3>
+            <AddDocumentButton email={user.emailAddresses[0].emailAddress} userId={user.id}/>
+          </div>
           <DocumentsList docs={documents}/>
         </div>
       ) : (
