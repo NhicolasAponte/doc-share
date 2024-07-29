@@ -12,9 +12,9 @@ export async function getAllDocumentsByUserId(userId: string) {
     // turned out it was because on creation, we are passing the 
     // user email to be used as the user id in liveblocks
     const result = await liveblocks.getRooms({ userId: userId });
-    console.log('result', result);
+    // console.log('result', result);
     const rooms = result.data;
-    console.log('rooms', rooms);
+    // console.log('rooms', rooms);
     return parseStringify(rooms);
   }
   catch (error) {
@@ -34,8 +34,11 @@ export const createDocument = async ({
       email: email,
       title: "Untitled Document",
     };
-
+    // usersAccesses is an object with keys as user ids and values as an array of permissions
+    // the user id is the email address of the user
+    // each key in the object represents a user and the value is an array of permissions
     const userPermissions: RoomAccesses = {
+      // [user email]: [permissions]
       [email]: ["room:write"],
     };
     // creating a room also creates a document since 
