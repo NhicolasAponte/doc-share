@@ -45,7 +45,7 @@ declare type SearchParamProps = {
     onClickHandler?: (value: string) => void;
   };
   
-  declare type ShareDocumentDialogProps = {
+  declare type ShareModalProps = {
     roomId: string;
     collaborators: User[];
     creatorId: string;
