@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import AccessTypeSelector from "./AccessTypeSelector";
 
 const ShareModal = ({
   roomId,
@@ -62,13 +63,14 @@ const ShareModal = ({
         </Label>
         <div className="flex items-center gap-3">
           <div className="flex flex-1 rounded-md bg-dark-400">
-            <Input 
-                id="email"
-                placeholder="Enter email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="share-input"
+            <Input
+              id="email"
+              placeholder="Enter email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="share-input"
             />
+            <AccessTypeSelector userType={userType} setUserType={setUserType} />
           </div>
         </div>
       </DialogContent>
