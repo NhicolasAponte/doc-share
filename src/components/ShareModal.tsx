@@ -14,6 +14,7 @@ import Image from "next/image";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import AccessTypeSelector from "./AccessTypeSelector";
+import CollaboratorList from "./CollaboratorList";
 
 const ShareModal = ({
   roomId,
@@ -72,7 +73,21 @@ const ShareModal = ({
             />
             <AccessTypeSelector userType={userType} setUserType={setUserType} />
           </div>
+          <Button
+            type="submit"
+            onClick={shareDocumentHandler}
+            className="gradient-blue flex h-full gap-1 px-5"
+            disabled={loading}
+          >
+            {loading ? "Sending..." : "Invite"}
+          </Button>
         </div>
+        <CollaboratorList 
+          roomId={roomId}
+          creatorId={creatorId}
+          userInfo={user.info}
+          collaborators={collaborators} 
+        />
       </DialogContent>
     </Dialog>
   );
