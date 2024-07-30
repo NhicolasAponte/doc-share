@@ -6,6 +6,7 @@ Typescript
 Tailwind 
 Shadcn/UI : default style; slate; no css variables for colors 
 Clerk : installed clerk/themes to style the clerk provider 
+Sentry : error tracing, logging, debugging 
 
 Editor: using jsm-editor by JavascriptMastery; rich text editor built on top of Lexical 
 npm i jsm-editor 
