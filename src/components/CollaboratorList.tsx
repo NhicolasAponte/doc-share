@@ -59,7 +59,7 @@ const Collaborator = ({
           </p>
         </div>
       </div>
-      {collaborator.id !== creatorId ? ( //NOTE: change back to ===
+      {collaborator.id === creatorId ? ( 
         <span className="">Owner</span>
       ) : (
         <div className="flex justify-center">

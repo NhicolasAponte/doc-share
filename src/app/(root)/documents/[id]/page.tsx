@@ -24,7 +24,7 @@ export default async function Document({ params: {id}}: SearchParamProps) {
     // console.log(userIds);
     // // get user data for all the users in the document 
     const users = await getClerkUsers({ userIds })
-    console.log('xxxx clerk users xxxx', users);
+    // console.log('xxxx clerk users xxxx', users);
     const usersData = users.map((user: User) => ({
         ...user,
         userType: doc.usersAccesses[user.email]?.includes('room:write') ? 'editor' : 'viewer'

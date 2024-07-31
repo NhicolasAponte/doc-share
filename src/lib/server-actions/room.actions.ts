@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getAccessType, parseStringify } from "@/lib/utils";
 import { getDocumentsRoute } from "../routes";
 import { redirect } from "next/navigation";
+import { title } from "process";
 
 export async function getAllDocumentsByUserId(userId: string) {
   try {
@@ -30,7 +31,7 @@ export const createDocument = async ({
   try {
     const metadata = {
       creatorId: userId,
-      email: email, //NOTE TODO: this should be updated to creatorEmail
+      email: email, // NOTE TODO: this should be updated to creatorEmail
       title: "Untitled Document",
     };
     // usersAccesses is an object with keys as user ids and values as an array of permissions
@@ -67,8 +68,8 @@ export async function getDocument({
 }) {
   try {
     const room = await liveblocks.getRoom(roomId);
-    //NOTE TODO: Implement access control
-    //const hasAccess = room.usersAccesses[userId]?.includes('room:write');
+    // NOTE TODO: Implement access control
+    // const hasAccess = room.usersAccesses[userId]?.includes('room:write');
     const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
     if (!hasAccess) {
@@ -124,7 +125,21 @@ export async function updateDocumentAccess({
     const room = await liveblocks.updateRoom(roomId, { usersAccesses });
 
     if (room) {
-      //NOTE TODO: send notification
+      const notificationId = nanoid();
+
+      await liveblocks.triggerInboxNotification({
+        userId: email,
+        kind: `$documentAccess`,
+        roomId,
+        subjectId: notificationId,
+        activityData: {
+          userType,
+          title: `You have been invited to collaborate on ${room.metadata.title} by ${updatedBy.name}`,
+          updatedBy: updatedBy.name,
+          avatar: updatedBy.avatar,
+          email: updatedBy.email,
+        },
+      });
     }
 
     revalidatePath(getDocumentsRoute(roomId));
@@ -134,22 +149,47 @@ export async function updateDocumentAccess({
   }
 }
 
+
+
+
+
+
+
+
+
 export async function deleteCollaborator(roomId: string, email: string) {
+  
   try {
+    
+    console.log("xxxxxxxx deleteCollaborator xxxxxxxx");
+    
     const room = await liveblocks.getRoom(roomId);
     console.log("room", room.metadata);
+    
     if (room) {
+      
       if (room.metadata.email === email) {
         //metadata.email is the email of creator of the document
         throw new Error("Cannot delete the creator of the document");
       }
-      const usersAccesses = room.usersAccesses;
-      console.log("usersAccesses", usersAccesses);
-      delete usersAccesses[email];
-      console.log("usersAccesses", usersAccesses);
+      // NOTE TODO: test this method out, according to docs this should work 
+      // const usersAccesses = room.usersAccesses;
+      // console.log("usersAccesses", usersAccesses);
+      
+      // delete usersAccesses[email];
+      // console.log("usersAccesses", usersAccesses);
+      
+      // const updatedRoom = await liveblocks.updateRoom(roomId, {
+      //   usersAccesses,
+      // });
+
+      // console.log("updatedRoom", updatedRoom.usersAccesses);
+
       const updatedRoom = await liveblocks.updateRoom(roomId, {
-        usersAccesses,
-      });
+        usersAccesses: {
+          [email]: null
+        }
+      })
 
       revalidatePath(getDocumentsRoute(roomId));
       return parseStringify(updatedRoom);

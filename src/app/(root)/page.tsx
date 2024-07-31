@@ -1,6 +1,7 @@
 import AddDocumentButton from "@/components/AddDocumentButton";
 import DocumentsList from "@/components/DocumentsList";
 import Header from "@/components/Header";
+import { Notifications } from "@/components/Notifications";
 import { SignInRoute } from "@/lib/routes";
 import { getAllDocumentsByUserId } from "@/lib/server-actions/room.actions";
 import { SignedIn, UserButton } from "@clerk/nextjs";
@@ -8,7 +9,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-// flex items-center gap-2 lg:gap-4
 export default async function Home() {
   const user = await currentUser();
   if(!user) { redirect(SignInRoute.href) }
@@ -18,8 +18,8 @@ export default async function Home() {
   return (
     <main className="home-container">
       <Header className="sticky let-0 top-0">
-        <div className="">
-          Notification
+        <div className="flex items-center gap-2 lg:gap-4">
+          <Notifications/>
           <SignedIn>
             <UserButton />
           </SignedIn>
