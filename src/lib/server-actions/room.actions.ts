@@ -4,6 +4,7 @@ import { liveblocks } from "@/lib/liveblocks";
 import { revalidatePath } from "next/cache";
 import { getAccessType, parseStringify } from "@/lib/utils";
 import { getDocumentsRoute } from "../routes";
+import { redirect } from "next/navigation";
 
 export async function getAllDocumentsByUserId(userId: string) {
   try {
@@ -95,11 +96,16 @@ export async function updateDocument({
     console.error(`Error occurred while updating document: `, error);
   }
 }
-
+/**
+ * This function takes a roomId and deletes the document with the 
+ * corresponding roomId using the liveblocks API
+ * @param roomId: string 
+ */
 export async function deleteDocument(roomId: string) {
   try {
     await liveblocks.deleteRoom(roomId);
     revalidatePath("/");
+    redirect("/");
   } catch (error) {
     console.error(`Error occurred while deleting document: `, error);
   }

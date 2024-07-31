@@ -3,6 +3,7 @@ import { dateConverter } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import DeleteWarningModal from "./DeleteWarningModal";
 
 interface DocumentsListProps {
   docs: any[];
@@ -27,9 +28,13 @@ const DocumentsList = ({ docs }: DocumentsListProps) => {
             </div>
             <div className="space-y-1">
               <p className="line-clamp-1">{metadata.title}</p>
-              <p className="text=sm font-light text-blue-100">Last used: {dateConverter(createdAt)}</p>
+              <p className="text=sm font-light text-blue-100">
+                Last used: {dateConverter(createdAt)}
+              </p>
             </div>
           </Link>
+          
+          <DeleteWarningModal roomId={id} />
         </li>
       ))}
     </ul>
