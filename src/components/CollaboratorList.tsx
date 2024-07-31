@@ -2,20 +2,41 @@ import React, { useState } from "react";
 import Image from "next/image";
 import AccessTypeSelector from "./AccessTypeSelector";
 import { Button } from "./ui/button";
+import {
+  deleteCollaborator,
+  updateDocumentAccess,
+} from "@/lib/server-actions/room.actions";
 
 const Collaborator = ({
   collaborator,
   creatorId,
+  roomId,
+  userInfo,
 }: {
   collaborator: User;
   creatorId: string;
+  roomId: string;
+  userInfo: User;
 }) => {
   const [userType, setUserType] = useState<UserType>(
     collaborator.userType || "viewer"
   );
   const [loading, setLoading] = useState(false);
-  const shareDocumentHandler = async () => {};
-  const deleteCollaboratorHandler = async (email: string) => {};
+  const shareDocumentHandler = async () => {
+    setLoading(true);
+    await updateDocumentAccess({
+      roomId,
+      email: collaborator.email,
+      userType,
+      updatedBy: userInfo,
+    });
+    setLoading(false);
+  };
+  const deleteCollaboratorHandler = async (email: string) => {
+    setLoading(true);
+    await deleteCollaborator(roomId, email);
+    setLoading(false);
+  };
   return (
     <div className="flex items-center justify-between gap-2 py-3">
       <div className="flex gap-2">
@@ -41,13 +62,16 @@ const Collaborator = ({
       {collaborator.id !== creatorId ? ( //NOTE: change back to ===
         <span className="">Owner</span>
       ) : (
-        <div>
+        <div className="flex justify-center">
           <AccessTypeSelector
             userType={userType}
             setUserType={setUserType}
             // onClickHandler={setLoading}
           />
-          <Button type="button" onClick={() => deleteCollaboratorHandler(collaborator.email)}>
+          <Button
+            type="button"
+            onClick={() => deleteCollaboratorHandler(collaborator.email)}
+          >
             Delete
           </Button>
         </div>
@@ -71,14 +95,18 @@ const CollaboratorList = ({
 }: CollaboratorListProps) => {
   // collaborator id, collaborator email
 
-
   // li className="flex items-center justify-between gap-2 py-3"
   return (
     <div className="my-2 space-y-2">
       <ul>
         {collaborators.map((collaborator) => (
           <li key={collaborator.id} className="">
-            <Collaborator collaborator={collaborator} creatorId={creatorId} />
+            <Collaborator
+              collaborator={collaborator}
+              creatorId={creatorId}
+              roomId={roomId}
+              userInfo={userInfo}
+            />
           </li>
         ))}
       </ul>

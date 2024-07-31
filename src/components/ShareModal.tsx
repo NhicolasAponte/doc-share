@@ -15,6 +15,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import AccessTypeSelector from "./AccessTypeSelector";
 import CollaboratorList from "./CollaboratorList";
+import { updateDocumentAccess } from "@/lib/server-actions/room.actions";
 
 const ShareModal = ({
   roomId,
@@ -33,7 +34,16 @@ const ShareModal = ({
     setOpen(true);
   }
 
-  async function shareDocumentHandler() {}
+  async function shareDocumentHandler() {
+    setLoading(true);
+    await updateDocumentAccess({
+      roomId,
+      email: email,
+      userType,
+      updatedBy: user.info,
+    });
+    setLoading(false);
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
